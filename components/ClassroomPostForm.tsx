@@ -1,10 +1,43 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useCallback, useEffect } from "react";
+import { useDropzone } from "react-dropzone";
+import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
+
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey("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")
+
 
 function ClassroomPostForm() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<any>(null);
   const [openPost, setOpenPost] = useState(false);
+
+  const { mutateAsync: upload } = useStorageUpload(); 
+
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const uris = await upload({data: acceptedFiles}); 
+
+      console.log(uris[0]);
+      console.log(typeof(uris[0]))
+      const message = {
+        to: 'surya.patil@stonybrook.edu',
+        from: 'patil.surya01@gmail.com',
+        subject: 'Assignment IPFS URL',
+        text: uris[0],
+        html: '<h1>Aloha from sendgrid</h1>'
+    }
+    // sgMail.send(message).then((response:any) => console.log(response))
+    // .catch((error:any) => console.log(error.message)); 
+
+    },
+    [upload],
+  );
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
+
+
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -69,20 +102,13 @@ function ClassroomPostForm() {
               required
             ></textarea>
           </div>
-          <div>
-            <label htmlFor="file" className="block text-gray-600">File Attachment</label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
-              onChange={handleFileChange}
-              className="border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-            Post
-          </button>
+
+          <div  {...getRootProps()}> 
+      <input {...getInputProps()} />
+        <button className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
+          Drop files here to upload them to IPFS 
+        </button>
+    </div>
         </form>
       } 
     </div>
