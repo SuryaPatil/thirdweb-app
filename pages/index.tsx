@@ -1,12 +1,18 @@
 import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
 import { NextPage } from "next";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Link from "next/link";
 
 const Home: NextPage = () => {
 
   const { mutateAsync: upload } = useStorageUpload(); 
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Perform localStorage action
+     setUser(localStorage.getItem('user'));
+  }, [])
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -30,7 +36,7 @@ const Home: NextPage = () => {
           <Link href="/learn-more" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Learn More</p>
           </Link>
-          <Link href={localStorage.getItem('user') != null ? "/dashboard" : "/login"}
+          <Link href={user != null ? "/dashboard" : "/login"}
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Get Started</p>
           </Link>
@@ -53,4 +59,5 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Home;  
+
