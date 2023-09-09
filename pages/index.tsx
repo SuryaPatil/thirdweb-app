@@ -1,6 +1,4 @@
 import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
-import styles from "../styles/Home.module.css";
-import Image from "next/image";
 import { NextPage } from "next";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
@@ -32,7 +30,7 @@ const Home: NextPage = () => {
           <Link href="/learn-more" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Learn More</p>
           </Link>
-          <Link href="/login"
+          <Link href={localStorage.getItem('user') != null ? "/dashboard" : "/login"}
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Get Started</p>
           </Link>

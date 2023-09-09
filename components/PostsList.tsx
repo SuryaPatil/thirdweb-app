@@ -1,7 +1,7 @@
 "use client" 
 
-import Attachment from "@/app/components/Attachment";
-import { COLOR_PALETTE } from "@/utils/constants";
+import Attachment from "../components/Attachment";
+import { COLOR_PALETTE } from "../utils/constants";
 import { useRouter } from 'next/navigation'
 
 const PostPreview = ({post}: {post: any}) => {

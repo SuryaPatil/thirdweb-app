@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface UserNotificationDashboardProps {
@@ -8,11 +9,17 @@ interface UserNotificationDashboardProps {
 }
 
 export default function UserNotificationDashboard ({ userName, assignments }: UserNotificationDashboardProps) {
+  const router = useRouter();
   const [showSettings, setShowSettings] = useState(false);
 
   const toggleOptions = () => {
     setShowSettings(!showSettings);
   };
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    router.push("/login");
+  }
 
     return (
       <div className="bg-white p-4 shadow-md rounded-lg mb-4">
@@ -35,7 +42,7 @@ export default function UserNotificationDashboard ({ userName, assignments }: Us
                   zIndex: 1, 
                 }}>
             <ul>
-              <li onClick={() => console.log("TODO: REMOVE USER FROM CLASS")}>
+              <li onClick={() => logout()}>
                 <p className="text-white font-semibold">Log Out</p>
               </li>
             </ul>
