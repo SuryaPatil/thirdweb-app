@@ -11,16 +11,6 @@ import PostsList from '../components/PostsList';
 import PeoplesList from '../components/PeoplesList';
 
 const Classroom = () => {
-  const { classroomCode } = useParams();
-  const [classroom, setClassroom] = useState(null);
-
-  {/* gets the classroom from the classroom code */}
-
-  // useEffect(() => {
-    
-
-  //   {/* TODO: validate if current user is part of classroom */}
-  // }, [])
 
   // Sample assignments data
   const posts = [
@@ -46,7 +36,6 @@ const Classroom = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
-      <h1>Classroom Code: {classroomCode}</h1>
         <div className="max-w-4xl w-[80%]">
 
             {/* back to dashboard */ }
