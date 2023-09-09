@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 html,
 body {
@@ -19,4 +19,99 @@ a {
 body {
   color: #e7e8e8;
   background: #070707;
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  --inter-font: "Inter";
+  --domine-font: "Domine";
+  --nunito-sans-font: "Nunito Sans";
+  --lilita-font: "Lilita One";
+  --merriweather-font: "Merriweather";
+/* 
+  --primary-color: #71f471;
+  --secondary-color: #e1eae1;
+  --accent-color: #eb1414;  
+  --text-color: #050505;
+  --background-color: #CBD5E1; */
+
+  
+  --primary-color: #4169E1;
+  --secondary-color: #07004D;
+  --accent-color: #D8DBE2;  
+  --text-color: #050505;
+  --background-color: #CBD5E1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+
+
+ 
+
+  --dark-primary-color: #71f471;
+  --dark-secondary-color: #151e15;
+  --dark-accent-color: #f37272;  
+  --dark-text-color: #fafafa;
+  --dark-background-color: #050505;
+}
+
+@layer base {
+  h1 {
+    @apply text-5xl  font-[Nunito+Sans] font-bold;
+  }
+  h2 {
+    @apply text-4xl  font-[Nunito+Sans] font-semibold;
+  }
+  h3 {
+    @apply text-2xl  font-[Nunito+Sans] font-semibold;
+  }
+  h4 {
+    @apply text-xl  font-[Nunito+Sans] font-semibold
+  }
+  p {
+    @apply text-lg  font-[Lilita+One]
+  } 
+  }
+}
+
+/* body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
+
+body {
+  background-image: 
+  radial-gradient(
+    circle,
+    rgba(65, 105, 225, 0.5),   /* #4169e1 with 50% opacity */
+    rgba(54, 77, 186, 0.5),    /* #364dba with 50% opacity */
+    rgba(41, 51, 148, 0.5),    /* #293394 with 50% opacity */
+    rgba(25, 25, 111, 0.5),    /* #19196f with 50% opacity */
+    rgba(7, 0, 77, 0.5)        /* #07004d with 50% opacity */
+  );
+  
 }
