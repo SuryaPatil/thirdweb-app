@@ -101,11 +101,34 @@ export interface Person {
     posts: [],
   };
 
+  
+  export const EXAMPLE_CLASSROOM_5: Classroom = {
+    id: 105,
+    name: "Theatre and Acting",
+    description: "In the classes, students learn to build their work from the inside out by asking the Who, What, When, Where, Why and How of a character, and learn to seek out the truest expression and life of that person.",
+    classroomCode: "WELUVACTING",
+    students: [student1],
+    teacher: teacher1,
+    posts: [],
+  };
+
+  export const EXAMPLE_CLASSROOM_6: Classroom = {
+    id: 106,
+    name: "Gym Class",
+    description: "This class will creatively focus on exercises pertaining to your arms, butt and core. You will rethink the way you define fatigue and find new boundaries that challenge your muscular endurance and strength. This is a great compliment to what you do for cardio outside of class. All-Levels.  ",
+    classroomCode: "GETFIT2GETHER",
+    students: [student1],
+    teacher: teacher1,
+    posts: [],
+  };
+
   export const EXAMPLE_CLASSES = [
     EXAMPLE_CLASSROOM_1,
     EXAMPLE_CLASSROOM_2,
     EXAMPLE_CLASSROOM_3,
-    EXAMPLE_CLASSROOM_4
+    EXAMPLE_CLASSROOM_4,
+    EXAMPLE_CLASSROOM_5,
+    EXAMPLE_CLASSROOM_6
   ]
   
   const assignment1: Post = {

@@ -9,5 +9,4 @@ const classSchema = new Schema({
   posts: [String]
 });
 
-const Class = model('Class', classSchema);
-export default Class;
+module.exports = mongoose.models?.Class || mongoose.model("Class", classSchema);

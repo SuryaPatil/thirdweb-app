@@ -9,6 +9,4 @@ const userSchema = new Schema({
   role: String,
   classes:[String],
 });
-
-const User = model('User', userSchema);
-export default User;
+module.exports = mongoose.models?.User || mongoose.model("User", userSchema);

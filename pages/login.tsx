@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import { authUser, createUser } from "../backend/controllers/user";
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState<number>(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('0');
 
   const [isExistingUser, setIsExistingUser] = useState(false);
 
@@ -46,25 +48,39 @@ const Login = () => {
     setPassword('');
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTriedToSubmit(true);
     console.log(isPasswordValid(password) )
     console.log(isEmailValid(email))
     console.log(isPhoneNumberValid(phoneNumber.toString()))
     if (isExistingUser) {
-        if (isPasswordValid(password) && isEmailValid(email) && isPhoneNumberValid(phoneNumber.toString())) {
-
-            // TODO: LOGIN LOGIC Add your login logic here
-         router.push('/dashboard');
-         console.log('Login clicked with email:', email, 'and password:', password);
-     }
-    } else {
         if (isPasswordValid(password) && isEmailValid(email)) {
 
-            // TODO: LOGIN LOGIC Add your login logic here
-         router.push('/dashboard');
-         console.log('Login clicked with email:', email, 'and password:', password);
+            
+        // await authUser({email: email, password: password}).then((response) => {
+        //   // TODO: LOGIN LOGIC NEED TO SET USER TO LOCAL STORAGE
+        //     router.push('/dashboard');
+        //     console.log('Login clicked with email:', email, 'and password:', password);
+        //   }
+        // )
+         
+     }
+    } else {
+        if (isPasswordValid(password) && isEmailValid(email) && isPhoneNumberValid(phoneNumber.toString())) {
+          // TODO: LOGIN LOGIC NEED TO SET USER TO LOCAL STORAGE
+          // await createUser({
+          //   firstName: firstName,
+          //   lastName: lastName,
+          //   email: email,
+          //   password: password,
+          //   role: role
+          // }).then((response) => {
+          //   router.push('/dashboard');
+          //   console.log('Login clicked with email:', email, 'and password:', password);
+          // })
+          
+         
         }
     }
     router.push('/dashboard');
@@ -126,7 +142,22 @@ const Login = () => {
                 />
             </div>
 
-            <div className="mb-4">
+            <div className='flex flex-col'>
+                <label htmlFor="Role" className="block text-gray-600 font-medium">
+                  What is your role?
+                </label>
+              <div className='flex flex-row justify-evenly py-4'>
+                <button type="button"
+                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == '0' ? " bg-blue-600": " bg-blue-300" )}
+                  onClick={() => setRole('0')}>STUDENT</button>
+                <button type="button"
+                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == '1' ? " bg-blue-600": " bg-blue-300" )}
+                  onClick={() => setRole('1')}>TEACHER</button>
+              </div>
+            </div>
+            
+
+            {/* <div className="mb-4">
                 <label htmlFor="Phone Number" className="block text-gray-600 font-medium">
                 Phone Number
                 </label>
@@ -140,7 +171,8 @@ const Login = () => {
                 />
                 {triedToSubmit && !isPhoneNumberValid(password) &&
                 <p className="text-base text-red-600">Phone number must be valid!</p>}
-            </div>
+            </div> */}
+
           </>}
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-600 font-medium">

@@ -1,9 +1,10 @@
 "use client"
 
 import { Classroom, EXAMPLE_CLASSES } from "../utils/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserNotificationDashboard from "../components/UserNotificationDashboard";
 import ClassroomCard from "../components/ClassroomCard";
+import { listClasses } from "../backend/controllers/user";
 
 function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value: boolean) => void}) {
   const [classroomCode, setClassroomCode] = useState('');
@@ -62,6 +63,18 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [classSet, setClassSet] = useState<any[]>([])
+
+  // useEffect(() => {
+  //   const user = localStorage.getItem('user');
+  //   listClasses({email: user}).then((response) => {
+  //     if (response.docs != null) {
+  //       setClassSet(response.docs)
+  //     }
+  //   })
+
+  // }, [])
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">

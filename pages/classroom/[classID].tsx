@@ -1,16 +1,17 @@
-"use client"
+// pages/classroom/[classId].js
 
-// pages/classroom.js
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { EXAMPLE_CLASSROOM_1 } from '../utils/types';
-import ClassroomInfo from '../components/ClassroomInfo';
-import ClassroomPostForm from '../components/ClassroomPostForm';
-import PostsList from '../components/PostsList';
-import PeoplesList from '../components/PeoplesList';
+import React, { useState } from "react";
+import { Classroom, EXAMPLE_CLASSROOM_1 } from "../../utils/types";
+import Link from "next/link";
+import ClassroomInfo from '../../components/ClassroomInfo';
+import ClassroomPostForm from '../../components/ClassroomPostForm';
+import PostsList from '../../components/PostsList';
+import PeoplesList from '../../components/PeoplesList';
 
-const Classroom = () => {
-
+export default function Classroom({ classID }) {
+    
+  const [showTimeline, setShowTimeline] = useState(true);
+    
 
   // Sample assignments data
   const posts = [
@@ -32,7 +33,6 @@ const Classroom = () => {
     // Add more assignments as needed
   ];
 
-  const [showTimeline, setShowTimeline] = useState(true);
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
@@ -45,7 +45,23 @@ const Classroom = () => {
                 <p className="mx-4 group-hover:bg-gray-400">Back to Dashboard</p>
             </Link>
             
-            <ClassroomInfo classroomInfo={EXAMPLE_CLASSROOM_1} styles="mb-4" />
+            <ClassroomInfo classroomInfo={{
+                id: 123,
+                name: classID,
+                description: "hello",
+                classroomCode: classID,
+                students: [],
+                teacher: {
+                    id: 2,
+                    firstName: "Jane",
+                    lastName: "Smith",
+                    email: "jane.smith@example.com",
+                    teacherId: "T12345",
+                    teachingClassrooms: [],
+                    phoneNumber: "1234567890",
+                },
+                posts: [],
+            }} styles="mb-4" />
 
             <ClassroomPostForm />
 
@@ -59,8 +75,31 @@ const Classroom = () => {
             
         </div>
       
-    </div>
-  );
-};
+    </div>)
+  }
+  
+  export async function getServerSideProps(context) {
+    // // Extract the classId parameter from the context
+    const { classID } = context.query;
+  
+    // // Fetch classroom data based on the classId
+    // // Replace this with your data fetching logic
+    // const classroom = await fetchClassroomData(classId);
+    // console.log(EXAMPLE_CLASSES)
+    // const classroom = EXAMPLE_CLASSES.find(item => item.classroomCode === classId);
 
-export default Classroom;
+    // if (!classroom) {
+    //     // Classroom not found, you can return an error or handle it as needed
+    //     return {
+    //       notFound: true,
+    //     };
+    //   }
+  
+    // Pass the classroom data as props 
+    return {
+      props: {
+        classID,
+      },
+    };
+  }
+  
