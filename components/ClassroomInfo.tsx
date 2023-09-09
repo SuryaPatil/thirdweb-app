@@ -1,7 +1,7 @@
 "use client"
 
-import { displayName } from "@/utils/functions";
-import { Classroom } from "@/utils/types";
+import { displayName } from "../utils/functions";
+import { Classroom } from "../utils/types";
 import React, { useEffect, useState } from "react";
 
 interface ClassroomInfoProps {

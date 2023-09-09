@@ -49,6 +49,9 @@ const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTriedToSubmit(true);
+    console.log(isPasswordValid(password) )
+    console.log(isEmailValid(email))
+    console.log(isPhoneNumberValid(phoneNumber.toString()))
     if (isExistingUser) {
         if (isPasswordValid(password) && isEmailValid(email) && isPhoneNumberValid(phoneNumber.toString())) {
 
@@ -62,7 +65,7 @@ const Login = () => {
             // TODO: LOGIN LOGIC Add your login logic here
          router.push('/dashboard');
          console.log('Login clicked with email:', email, 'and password:', password);
-     }
+        }
     }
     router.push('/dashboard');
     
@@ -180,7 +183,7 @@ const Login = () => {
             <div className="flex flex-row my-2">
                 <p>{isExistingUser ? "Don't have an account?" : "Already a user?"}</p>
                 <p className="text-blue-600 px-2 font-semibold hover:cursor-pointer"
-                    onClick={() => setIsExistingUser(!isExistingUser)}>{isExistingUser ? "Sign Up!" : "Login!"}</p>
+                    onClick={() => handleSwap()}>{isExistingUser ? "Sign Up!" : "Login!"}</p>
             </div>
           </div>
         </form>
