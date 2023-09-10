@@ -3,15 +3,16 @@ import { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
 
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey()
+// const sgMail = require('@sendgrid/mail')
+// sgMail.setApiKey(process.env.NEXT_PUBLIC_SG_API_KEY)
 
 
-function ClassroomPostForm() {
+function ClassroomPostForm({classInfo}: {classInfo: any}) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<any>(null);
   const [openPost, setOpenPost] = useState(false);
+  const [fileURI, setFileURI] = useState("");
 
   const { mutateAsync: upload } = useStorageUpload(); 
 
@@ -20,16 +21,62 @@ function ClassroomPostForm() {
       const uris = await upload({data: acceptedFiles}); 
 
       console.log(uris[0]);
-      console.log(typeof(uris[0]))
-      const message = {
-        to: 'surya.patil@stonybrook.edu',
-        from: 'patil.surya01@gmail.com',
-        subject: 'Assignment IPFS URL',
-        text: uris[0],
-        html: '<h1>Aloha from sendgrid</h1>'
-    }
-    sgMail.send(message).then((response:any) => console.log(response))
-    .catch((error:any) => console.log(error.message)); 
+      console.log(typeof(uris[0]));
+      setFileURI(uris[0]);
+
+      
+    const message = {
+      to: 'surya.patil@stonybrook.edu',
+      from: 'patil.surya01@gmail.com',
+      subject: 'Assignment IPFS URL',
+      text: uris[0],
+      html: `<h1>Aloha from sendgrid\n Here is your item:\n https://ipfs.io/ipfs/${uris[0].substring(7)}</h1>`
+  }
+  // sgMail.send(message).then((response:any) => console.log(response))
+  // .catch((error:any) => console.log(error.message)); 
+
+  await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}post/sg`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message), 
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      // console.log(res);
+      res.json().then(json => {
+        console.log(json);
+      });
+      return res;
+    })
+    .catch(error => console.error('Fetch error:', error));
+
+    await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}post/createPost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        classTitle: classInfo.title,
+        postTitle: title,
+        postBody: description,
+      }), 
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // console.log(res);
+        res.json().then(json => {
+          console.log(json);
+        });
+        return res;
+      })
+      .catch(error => console.error('Fetch error:', error));
+   
 
     },
     [upload],
@@ -56,8 +103,9 @@ function ClassroomPostForm() {
     }
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
 
     // Send the form data (title, description, and file) to your backend for processing
     // You can use Axios or the Fetch API to make an API request to your backend endpoint
@@ -105,7 +153,7 @@ function ClassroomPostForm() {
 
           <div  {...getRootProps()}> 
       <input {...getInputProps()} />
-        <button className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
+        <button type="submit" className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
           Drop files here to upload them to IPFS 
         </button>
     </div>

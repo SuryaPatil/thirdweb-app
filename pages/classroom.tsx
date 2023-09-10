@@ -47,7 +47,7 @@ const Classroom = () => {
             
             <ClassroomInfo classroomInfo={EXAMPLE_CLASSROOM_1} styles="mb-4" />
 
-            <ClassroomPostForm />
+            <ClassroomPostForm classInfo={EXAMPLE_CLASSROOM_1} />
 
             <div className='flex flex-row justify-between mx-8'>
               <h2 className={"text-2xl font-semibold px-8 py-2 rounded-t-lg hover:cursor-pointer" + (showTimeline ? " bg-accent" : "")} 

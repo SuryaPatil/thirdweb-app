@@ -47,7 +47,7 @@ export default function Classroom({ classInfo }) {
             
             <ClassroomInfo classroomInfo={classInfo} styles="mb-4" />
 
-            <ClassroomPostForm />
+            <ClassroomPostForm classInfo={classInfo} />
 
             <div className='flex flex-row justify-between mx-8'>
               <h2 className={"text-2xl font-semibold px-8 py-2 rounded-t-lg hover:cursor-pointer" + (showTimeline ? " bg-accent" : "")} 
