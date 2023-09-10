@@ -4,7 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
 
 const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey("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")
+sgMail.setApiKey()
 
 
 function ClassroomPostForm() {
@@ -28,8 +28,8 @@ function ClassroomPostForm() {
         text: uris[0],
         html: '<h1>Aloha from sendgrid</h1>'
     }
-    // sgMail.send(message).then((response:any) => console.log(response))
-    // .catch((error:any) => console.log(error.message)); 
+    sgMail.send(message).then((response:any) => console.log(response))
+    .catch((error:any) => console.log(error.message)); 
 
     },
     [upload],
