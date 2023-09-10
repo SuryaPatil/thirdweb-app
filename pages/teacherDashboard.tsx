@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import UserNotificationDashboard from "../components/UserNotificationDashboard";
 import ClassroomCard from "../components/ClassroomCard";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value: boolean) => void}) {
   const [classroomCode, setClassroomCode] = useState('');
@@ -86,6 +87,18 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const [showSettings, setShowSettings] = useState(false);
+  const [username, setUsername] = useState('');
+
+  const toggleOptions = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    router.push("/login");
+  }
   
   const [classSet, setClassSet] = useState<any[]>([])
 
@@ -121,7 +134,37 @@ export default function Dashboard() {
       <AddClassModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <div className="max-w-4xl w-[80%]">
         {/* User notification dashboard */ }
-<div>Teacher's dashboard</div>        {/* User's classrooms */}
+        <div className="bg-white p-4 shadow-md rounded-lg mb-4">
+        <div className="flex flex-row justify-between">
+          <h2 className="font-semibold">Teacher Dashboard</h2>
+          <div className="rounded-full p-1">
+            <img src="/icons/setting.png" alt="Settings" 
+                style={{ maxWidth: '24px', maxHeight: '24px'}}
+                className={"hover:bg-gray-400 rounded-full" + (showSettings ? " bg-gray-400" : "")}
+                onMouseDown={(e) => {
+                  e.stopPropagation(); // Prevent parent link from navigating
+                  toggleOptions();
+                }} />
+
+            {showSettings && (
+              <div className="bg-red-400 p-2 group hover:bg-red-800 hover:cursor-pointer" 
+                style={{
+                  position: 'absolute',
+                  top: 70, 
+                  zIndex: 1, 
+                }}>
+            <ul>
+              <li onClick={() => logout()}>
+                <p className="text-white font-semibold">Log Out</p>
+              </li>
+            </ul>
+          </div>
+      )}
+          </div>
+          
+        </div>
+      </div>
+      {/* User's classrooms */}
         <div className="flex flex-row justify-between items-center">
           <h1 className="text-3xl font-semibold mb-4">My Classes</h1>
           <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex flex-row items-center"

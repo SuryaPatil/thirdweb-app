@@ -16,7 +16,7 @@ export default function ClassroomCard ({title, classCode, professor}: {title: st
     return (
       <div
         className="bg-accent shadow-lg rounded-lg m-4 w-72 hover:scale-105 hover:shadow-xl duration-150 hover:cursor-pointer"
-        onMouseDown={() => router.push(`/classroom/${classCode}`)}
+        onMouseDown={() => router.push(`/classroom`)} // /${classCode}
         onMouseLeave={() => setShowOptions(false)}>
         {/* {imageSrc && (
           <img src={imageSrc} alt={name} className="w-full h-40 object-cover" />
