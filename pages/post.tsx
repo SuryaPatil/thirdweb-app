@@ -17,7 +17,7 @@ const Post = () => {
           <div className="max-w-4xl w-[80%]">
   
               {/* back to dashboard */ }
-              <Link href="/classroom" className="flex flex-row mb-8 items-center w-auto group hover:cursor-pointer">
+              <Link href="/login" className="flex flex-row mb-8 items-center w-auto group hover:cursor-pointer">
                   <img src="/icons/left-arrow.png" alt="Back Icon" 
                       style={{ maxWidth: '20px', maxHeight: '20px' }}/>
                   <p className="mx-4 group-hover:bg-gray-400">Back to Dashboard</p>

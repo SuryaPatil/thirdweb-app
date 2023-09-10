@@ -105,8 +105,16 @@ const Login = () => {
               res.json().then(json => {
                 console.log(json);
                 localStorage.setItem('user', email);
-                router.push('/dashboard');
+                console.log(role)
+                if(role === '0'){
+                  router.push('/studentDashboard');
+                }
+                else{
+                  console.log('pushing to classroom')
+                  router.push('/teacherDashboard');
+                }
               });
+              
               return res;
             })
             .catch(error => console.error('Fetch error:', error));

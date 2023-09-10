@@ -57,7 +57,7 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
                   
           </div>
           
-              <h3>Add a Classroom</h3>
+              <h3>Create a Class</h3>
             </div>
             <div className="flex flex-col">
               <label htmlFor="classroomCode">Classroom Code:</label>
@@ -120,13 +120,12 @@ export default function Dashboard() {
       <AddClassModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
       <div className="max-w-4xl w-[80%]">
         {/* User notification dashboard */ }
-        <UserNotificationDashboard userName="Kobe" assignments={[]}/>
-        {/* User's classrooms */}
+<div>Teacher's dashboard</div>        {/* User's classrooms */}
         <div className="flex flex-row justify-between items-center">
-          <h1 className="text-3xl font-semibold mb-4">My Classrooms</h1>
+          <h1 className="text-3xl font-semibold mb-4">My Classes</h1>
           <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex flex-row items-center"
             onClick={() => setIsModalOpen(true)}>
-            <p>Add Classroom</p>
+            <p>Add a Class</p>
             <img src="/icons/plus.png" alt="Add" 
               style={{ maxWidth: '20px', maxHeight: '20px'}}
               className="ml-2"/>
@@ -136,7 +135,7 @@ export default function Dashboard() {
         
         <div className="flex flex-wrap justify-center">
           {
-            classSet.map( (classroom: Classroom) => 
+            EXAMPLE_CLASSES.map( (classroom: Classroom) => 
               (<ClassroomCard
                 classroom={classroom}
                 key={classroom.name}
