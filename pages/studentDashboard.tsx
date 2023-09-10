@@ -136,11 +136,23 @@ export default function Dashboard() {
         
         <div className="flex flex-wrap justify-center">
           {
+<<<<<<< HEAD:pages/studentDashboard.tsx
             EXAMPLE_CLASSES.map( (classroom: Classroom) => 
               (<ClassroomCard
                 classroom={classroom}
+=======
+            classSet.map( (classroom: any) => {
+              const classData = JSON.parse(classroom);
+              return (<ClassroomCard
+                title={classData.title}
+                professor={classData.professor}
+>>>>>>> 03f725cffd2a7da58c31b9a514cc342cdd812c11:pages/dashboard.tsx
                 key={classroom.name}
               />)
+
+            }
+          
+              
             )
           }
       </div>

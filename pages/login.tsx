@@ -104,6 +104,7 @@ const Login = () => {
               // console.log(res);
               res.json().then(json => {
                 console.log(json);
+<<<<<<< HEAD
                 localStorage.setItem('user', email);
                 console.log(role)
                 if(role === '0'){
@@ -113,6 +114,8 @@ const Login = () => {
                   console.log('pushing to classroom')
                   router.push('/teacherDashboard');
                 }
+=======
+>>>>>>> 03f725cffd2a7da58c31b9a514cc342cdd812c11
               });
               
               return res;
