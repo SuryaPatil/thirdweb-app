@@ -69,23 +69,6 @@ const Home: NextPage = () => {
             <p>Get Started</p>
           </Link>
         </div>
-        <div  {...getRootProps()}> 
-      <input {...getInputProps()} />
-        <button>
-          Drop files here to upload them to IPFS 
-        </button>
-    </div>
-    {/* <button
-     onClick={(e) => onSubmit(e)}>SEND TWILIO</button>
-     <button
-     onClick={()=>sendRequest()}>CLICKING</button> */}
-
-      {/* <div className="absolute inset-0">
-        <img src="/images/classroom-technology.jpg" alt="Classroom using technology" className="w-full h-full object-cover opacity-30 z-0" />
-      </div> */}
-      {/* <footer className='mt-auto text-center'>
-        <a href="https://www.flaticon.com/free-icons/note" title="note icons">Note icons created by Freepik - Flaticon</a>
-      </footer> */}
     </main>
     
   );
