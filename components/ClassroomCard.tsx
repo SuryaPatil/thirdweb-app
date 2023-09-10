@@ -5,7 +5,7 @@ import { useState } from "react";
 import { displayName } from "../utils/functions";
 import { Classroom } from "../utils/types";
 
-export default function ClassroomCard ({title, professor}: {title: string, professor: string}) {
+export default function ClassroomCard ({title, classCode, professor}: {title: string, classCode: string, professor: string}) {
     const router = useRouter();
     const [showOptions, setShowOptions] = useState(false);
 
@@ -16,7 +16,7 @@ export default function ClassroomCard ({title, professor}: {title: string, profe
     return (
       <div
         className="bg-accent shadow-lg rounded-lg m-4 w-72 hover:scale-105 hover:shadow-xl duration-150 hover:cursor-pointer"
-        onMouseDown={() => router.push(`/classroom/${title}`)}
+        onMouseDown={() => router.push(`/classroom/${classCode}`)}
         onMouseLeave={() => setShowOptions(false)}>
         {/* {imageSrc && (
           <img src={imageSrc} alt={name} className="w-full h-40 object-cover" />

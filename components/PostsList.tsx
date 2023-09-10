@@ -54,7 +54,9 @@ const PostsList = ({ posts }: {posts: any[]}) => {
   return (
     <div>
         <div className="bg-accent shadow-md rounded-lg p-4">
-            {posts.map((post, index) => (
+
+            {posts != undefined && 
+                posts.map((post, index) => (
                 <PostPreview post={post} key={index} />
             ))}
         </div>

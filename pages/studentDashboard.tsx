@@ -145,6 +145,7 @@ export default function Dashboard() {
               const classData = JSON.parse(classroom);
               return (<ClassroomCard
                 title={classData.title}
+                classCode={classData.classCode}
                 professor={classData.professor}
 >>>>>>> 03f725cffd2a7da58c31b9a514cc342cdd812c11:pages/dashboard.tsx
                 key={classroom.name}

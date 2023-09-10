@@ -64,28 +64,20 @@ export default function Classroom({ classInfo }) {
   
   export async function getServerSideProps(context) {
     // // Extract the classId parameter from the context
-    const { classTitle } = context.query;
+    const { classCode } = context.query;
 
-    const classInfo = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}class/getClassInfo`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}class/getClassInfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        classTitle: classTitle
+        classCode: classCode
       }), 
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // console.log(res);
-        res.json().then(json => {
-          console.log(json.docs);
-        });
-        return res;
-      })
-      .catch(error => console.error('Fetch error:', error));
+    const data = await response.json()
+    console.log(data)
+  
   
     // // Fetch classroom data based on the classId
     // // Replace this with your data fetching logic
@@ -103,7 +95,7 @@ export default function Classroom({ classInfo }) {
     // Pass the classroom data as props 
     return {
       props: {
-        classInfo,
+        classInfo: data,
       },
     };
   }
