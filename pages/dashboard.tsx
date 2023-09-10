@@ -4,7 +4,6 @@ import { Classroom, EXAMPLE_CLASSES } from "../utils/types";
 import { useEffect, useState } from "react";
 import UserNotificationDashboard from "../components/UserNotificationDashboard";
 import ClassroomCard from "../components/ClassroomCard";
-import { listClasses } from "../backend/controllers/user";
 
 function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value: boolean) => void}) {
   const [classroomCode, setClassroomCode] = useState('');
@@ -13,11 +12,34 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
     setClassroomCode(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle form submission here, e.g., send the classroomCode to your API
     console.log('Submitted Classroom Code:', classroomCode);
+
     // TODO: handle adding classroom 
+    await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/studentAddClass`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        classCode: classroomCode,
+        email: localStorage.getItem('user'),
+      }), 
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        res.json().then(json => {
+          if (json.status == false) {
+            alert(json.message)
+          }
+        });
+      })
+      .catch(error => console.error('Fetch error:', error));
     // Close the modal
+    setClassroomCode('');
     setIsOpen(false);
   };
 
@@ -66,15 +88,32 @@ export default function Dashboard() {
   
   const [classSet, setClassSet] = useState<any[]>([])
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem('user');
-  //   listClasses({email: user}).then((response) => {
-  //     if (response.docs != null) {
-  //       setClassSet(response.docs)
-  //     }
-  //   })
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    
+    fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/listClasses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: user
+      }), 
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // console.log(res);
+        res.json().then(json => {
+          console.log(json.docs);
+          setClassSet(json.docs)
+        });
+        return res;
+      })
+      .catch(error => console.error('Fetch error:', error));
 
-  // }, [])
+  }, [])
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
@@ -97,7 +136,7 @@ export default function Dashboard() {
         
         <div className="flex flex-wrap justify-center">
           {
-            EXAMPLE_CLASSES.map( (classroom: Classroom) => 
+            classSet.map( (classroom: Classroom) => 
               (<ClassroomCard
                 classroom={classroom}
                 key={classroom.name}

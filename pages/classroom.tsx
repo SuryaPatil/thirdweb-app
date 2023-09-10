@@ -55,7 +55,7 @@ const Classroom = () => {
               <h2 className={"text-2xl font-semibold px-8 py-2 rounded-t-lg hover:cursor-pointer" + (!showTimeline ? " bg-accent" : "")} 
                 onClick={() => {setShowTimeline(false)}}>People</h2>
             </div>
-            {showTimeline ? <PostsList posts={posts} /> : <PeoplesList />}
+            {showTimeline ? <PostsList posts={posts} /> : <PeoplesList classInfo={EXAMPLE_CLASSROOM_1}/>}
             
         </div>
       

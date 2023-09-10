@@ -56,35 +56,64 @@ const Login = () => {
     console.log(isPhoneNumberValid(phoneNumber.toString()))
     if (isExistingUser) {
         if (isPasswordValid(password) && isEmailValid(email)) {
-
-            
-        // await authUser({email: email, password: password}).then((response) => {
-        //   // TODO: LOGIN LOGIC NEED TO SET USER TO LOCAL STORAGE
-        //     router.push('/dashboard');
-        //     console.log('Login clicked with email:', email, 'and password:', password);
-        //   }
-        // )
-         
+          await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/authUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }), 
+          })
+            .then(res => {
+              if (!res.ok) {
+                throw new Error('Network response was not ok');
+              }
+              // console.log(res);
+              res.json().then(json => {
+                console.log(json);
+                localStorage.setItem('user', email);
+                router.push('/dashboard');
+              });
+              return res;
+            })
+            .catch(error => console.error('Fetch error:', error));
      }
     } else {
-        if (isPasswordValid(password) && isEmailValid(email) && isPhoneNumberValid(phoneNumber.toString())) {
-          // TODO: LOGIN LOGIC NEED TO SET USER TO LOCAL STORAGE
-          // await createUser({
-          //   firstName: firstName,
-          //   lastName: lastName,
-          //   email: email,
-          //   password: password,
-          //   role: role
-          // }).then((response) => {
-          //   router.push('/dashboard');
-          //   console.log('Login clicked with email:', email, 'and password:', password);
-          // })
+        if (isPasswordValid(password) && isEmailValid(email)) {
+
+          await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/createUser`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              password: password,
+              role: role,
+              classes:[]
+            }), 
+          })
+            .then(res => {
+              if (!res.ok) {
+                throw new Error('Network response was not ok');
+              }
+              // console.log(res);
+              res.json().then(json => {
+                console.log(json);
+                localStorage.setItem('user', email);
+                router.push('/dashboard');
+              });
+              return res;
+            })
+            .catch(error => console.error('Fetch error:', error));
           
          
         }
     }
-    router.push('/dashboard');
-    
  
   };
 
@@ -186,7 +215,7 @@ const Login = () => {
               onChange={handleEmailChange}
               required
             />
-            {triedToSubmit && !isEmailValid(password) &&
+            {triedToSubmit && !isEmailValid(email) &&
                 <p className="text-base text-red-600">Email must be valid!</p>}
             
           </div>

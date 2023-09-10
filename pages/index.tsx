@@ -3,8 +3,36 @@ import { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Link from "next/link";
+import sendMessage from "../messaging/twilio.js"
 
 const Home: NextPage = () => {
+
+//   async function sendRequest() {
+//     console.log("CLICKED");
+//     const response = await fetch("http://localhost:3001/users/authUser", {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify({
+//     email: "RandomOtter",
+//     password: "password",
+//   }), // Send your data in JSON format
+// })
+//   .then(res => {
+//     if (!res.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     // console.log(res);
+//     res.json().then(json => {
+//       console.log(json);
+//     });
+//     return res;
+//   })
+//   .catch(error => console.error('Fetch error:', error));
+
+//     // fetch(process.env.HOST_NAME + "users/authUser")
+//   }
 
   const { mutateAsync: upload } = useStorageUpload(); 
   const [user, setUser] = useState<any>(null);
@@ -47,6 +75,10 @@ const Home: NextPage = () => {
           Drop files here to upload them to IPFS 
         </button>
     </div>
+    {/* <button
+     onClick={(e) => onSubmit(e)}>SEND TWILIO</button>
+     <button
+     onClick={()=>sendRequest()}>CLICKING</button> */}
 
       {/* <div className="absolute inset-0">
         <img src="/images/classroom-technology.jpg" alt="Classroom using technology" className="w-full h-full object-cover opacity-30 z-0" />

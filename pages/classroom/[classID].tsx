@@ -8,7 +8,7 @@ import ClassroomPostForm from '../../components/ClassroomPostForm';
 import PostsList from '../../components/PostsList';
 import PeoplesList from '../../components/PeoplesList';
 
-export default function Classroom({ classID }) {
+export default function Classroom({ classInfo }) {
     
   const [showTimeline, setShowTimeline] = useState(true);
     
@@ -45,23 +45,7 @@ export default function Classroom({ classID }) {
                 <p className="mx-4 group-hover:bg-gray-400">Back to Dashboard</p>
             </Link>
             
-            <ClassroomInfo classroomInfo={{
-                id: 123,
-                name: classID,
-                description: "hello",
-                classroomCode: classID,
-                students: [],
-                teacher: {
-                    id: 2,
-                    firstName: "Jane",
-                    lastName: "Smith",
-                    email: "jane.smith@example.com",
-                    teacherId: "T12345",
-                    teachingClassrooms: [],
-                    phoneNumber: "1234567890",
-                },
-                posts: [],
-            }} styles="mb-4" />
+            <ClassroomInfo classroomInfo={classInfo} styles="mb-4" />
 
             <ClassroomPostForm />
 
@@ -71,7 +55,7 @@ export default function Classroom({ classID }) {
               <h2 className={"text-2xl font-semibold px-8 py-2 rounded-t-lg hover:cursor-pointer" + (!showTimeline ? " bg-accent" : "")} 
                 onClick={() => {setShowTimeline(false)}}>People</h2>
             </div>
-            {showTimeline ? <PostsList posts={posts} /> : <PeoplesList />}
+            {showTimeline ? <PostsList posts={classInfo.posts} /> : <PeoplesList classInfo={classInfo}/>}
             
         </div>
       
@@ -80,7 +64,28 @@ export default function Classroom({ classID }) {
   
   export async function getServerSideProps(context) {
     // // Extract the classId parameter from the context
-    const { classID } = context.query;
+    const { classTitle } = context.query;
+
+    const classInfo = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}class/getClassInfo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        classTitle: classTitle
+      }), 
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // console.log(res);
+        res.json().then(json => {
+          console.log(json.docs);
+        });
+        return res;
+      })
+      .catch(error => console.error('Fetch error:', error));
   
     // // Fetch classroom data based on the classId
     // // Replace this with your data fetching logic
@@ -98,7 +103,7 @@ export default function Classroom({ classID }) {
     // Pass the classroom data as props 
     return {
       props: {
-        classID,
+        classInfo,
       },
     };
   }
