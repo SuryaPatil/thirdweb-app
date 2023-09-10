@@ -30,7 +30,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
       from: 'patil.surya01@gmail.com',
       subject: 'Assignment IPFS URL',
       text: uris[0],
-      html: `<h1>Aloha from sendgrid\n Here is your item:\n https://ipfs.io/ipfs/${uris[0].substring(7)}</h1>`
+      html: `<h1>Assignment Alert:\n ${title} \n ${description} \n Attachments:\n https://ipfs.io/ipfs/${uris[0].substring(7)}</h1>`
   }
   // sgMail.send(message).then((response:any) => console.log(response))
   // .catch((error:any) => console.log(error.message)); 
