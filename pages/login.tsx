@@ -104,8 +104,6 @@ const Login = () => {
               // console.log(res);
               res.json().then(json => {
                 console.log(json);
-                localStorage.setItem('user', email);
-                router.push('/dashboard');
               });
               return res;
             })

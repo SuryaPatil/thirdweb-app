@@ -42,7 +42,9 @@ export default function PeoplesList ({ classInfo }: { classInfo: any}) {
               // console.log(res);
               res.json().then(json => {
                 console.log(json.docs);
-                setStudentList(json.docs)
+                if (json.docs != undefined) {
+                    setStudentList(json.docs)
+                }
               });
               return res;
             })

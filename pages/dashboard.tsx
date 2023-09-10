@@ -136,11 +136,17 @@ export default function Dashboard() {
         
         <div className="flex flex-wrap justify-center">
           {
-            classSet.map( (classroom: Classroom) => 
-              (<ClassroomCard
-                classroom={classroom}
+            classSet.map( (classroom: any) => {
+              const classData = JSON.parse(classroom);
+              return (<ClassroomCard
+                title={classData.title}
+                professor={classData.professor}
                 key={classroom.name}
               />)
+
+            }
+          
+              
             )
           }
       </div>

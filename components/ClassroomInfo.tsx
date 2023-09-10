@@ -13,10 +13,6 @@ const ClassroomInfo = ({ styles, classroomInfo }: ClassroomInfoProps) => {
 
   const [isClassroomCodeVisible, setIsClassroomCodeVisible] = useState(false);
 
-  useEffect(() => {
-    console.log("hey");
-  }, [isClassroomCodeVisible])
-
   const toggleDisplayClassroomCode = () => {
     console.log("clicked");
     setIsClassroomCodeVisible(!isClassroomCodeVisible);
