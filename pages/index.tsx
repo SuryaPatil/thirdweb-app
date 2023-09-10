@@ -64,7 +64,7 @@ const Home: NextPage = () => {
           <Link href="/learn-more" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Learn More</p>
           </Link>
-          <Link href={user != null ? "/dashboard" : "/login"}
+          <Link href={user != null ? "/teacherDashboard" : "/login"}
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Get Started</p>
           </Link>

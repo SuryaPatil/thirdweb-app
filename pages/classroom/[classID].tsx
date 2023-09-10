@@ -1,6 +1,7 @@
+
 // pages/classroom/[classId].js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Classroom, EXAMPLE_CLASSROOM_1 } from "../../utils/types";
 import Link from "next/link";
 import ClassroomInfo from '../../components/ClassroomInfo';
@@ -11,6 +12,10 @@ import PeoplesList from '../../components/PeoplesList';
 export default function Classroom({ classInfo }) {
     
   const [showTimeline, setShowTimeline] = useState(true);
+
+  useEffect(() => {
+    console.log(classInfo);
+  }, []);
     
 
   // Sample assignments data
