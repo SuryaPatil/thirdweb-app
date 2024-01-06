@@ -12,7 +12,7 @@ const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState<number>(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('0');
+  const [role, setRole] = useState(false);
 
   const [isExistingUser, setIsExistingUser] = useState(false);
 
@@ -50,6 +50,7 @@ const Register = () => {
     console.log(isPhoneNumberValid(phoneNumber.toString()))
    
     if (isPasswordValid(password) && isEmailValid(email)) {
+      console.log(role)
       const name = firstName +" "+lastName
       await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}createUser`, {
         method: 'POST',
@@ -60,7 +61,7 @@ const Register = () => {
           name: name,
           email: email,
           password: password,
-          role: role,
+          isTeacher: role,
           classes:[]
         }), 
       })
@@ -143,11 +144,11 @@ const Register = () => {
                 </label>
               <div className='flex flex-row justify-evenly py-4'>
                 <button type="button"
-                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == '0' ? " bg-blue-600": " bg-blue-300" )}
-                  onClick={() => setRole('0')}>STUDENT</button>
+                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == false ? " bg-blue-600": " bg-blue-300" )}
+                  onClick={() => setRole(false)}>STUDENT</button>
                 <button type="button"
-                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == '1' ? " bg-blue-600": " bg-blue-300" )}
-                  onClick={() => setRole('1')}>TEACHER</button>
+                  className={"text-white px-4 py-2 rounded hover:bg-blue-500" + (role == true ? " bg-blue-600": " bg-blue-300" )}
+                  onClick={() => setRole(true)}>TEACHER</button>
               </div>
             </div>
             

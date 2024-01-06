@@ -17,8 +17,18 @@ const Login = () => {
         console.log(email)
         console.log(password)
         
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}authUser`, {email, password})
-        console.log(res.data)
+        try{
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}authUser`, {email, password})
+            console.log(res.data)
+            if(res.data === "User not found" || res.data === 'Invalid password'){
+                alert("Invalid email or password")
+            }
+
+
+        } catch(e){
+            console.log(e)
+        }
+        
     }
     const handleSwap = async () => {
         router.push("/register")

@@ -30,6 +30,8 @@ app.post('/createUser', async (req, res) => {
   try {
     // Extract data from the request body
     const { name, email, password, isTeacher, classes } = req.body;
+    console.log("isTeacher: ")
+    console.log(isTeacher)
 
     const emailExists = await User.find({email: email})
     if (emailExists.length > 0) {
@@ -43,7 +45,7 @@ app.post('/createUser', async (req, res) => {
       name: name,
       email: email,
       password: hashedPassword,
-      role: isTeacher,
+      isTeacher: isTeacher,
       classes:[]
     })
     console.log(newUser)
@@ -66,7 +68,7 @@ app.post('/authUser', async (req, res) => {
 
     if (!user) {
       console.log('User not found.');
-      res.send("User not found")
+      return res.send("User not found")
     }
  
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -78,7 +80,7 @@ app.post('/authUser', async (req, res) => {
 
     console.log('Login successful.');
     // Here you might set up a session or generate a token for the user
-    res.send("Login successful")
+    res.send(user)
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(500).json({ error: 'Internal Server Error' });
