@@ -1,104 +1,90 @@
-const uri = "mongodb+srv://ehalim:hackathon@edblock.xvvenkb.mongodb.net/edblock?retryWrites=true&w=majority";
+//const uri = "mongodb+srv://ehalim:hackathon@edblock.xvvenkb.mongodb.net/edblock?retryWrites=true&w=majority";
 import mongoose from 'mongoose'
 import User from './models/user.js'
 import Class from './models/class.js'
 import Posts from './models/posts.js'
+import bcrypt from 'bcrypt'
 
-// "APIs"
-import {getClassInfo, createClass, getClassStudents} from './controllers/class.js'
-import {createPost} from './controllers/posts.js'
-import {createUser, studentAddClass, listClasses, authUser} from './controllers/user.js'
+import express from 'express' 
+const app = express()
+const port = 8000;
+import cors from 'cors' 
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ['PUT', 'GET', 'DELETE', 'POST', 'PATCH'],
+  credentials: true
+}));
+app.use(express.json())
+ 
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/edblock', {});
 
-mongoose.connect(uri)
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('connected', function() {
+  console.log('Connected to database');
+});
 
-// Create User
-const createUserReq = {
-  firstName: "John",
-  lastName: "Doe",
-  email: "RandomOtter",
-  password: "password",
-  role: "1"
-}
+// Handle POST request to createUser endpoint
+app.post('/createUser', async (req, res) => {
+  try {
+    // Extract data from the request body
+    const { name, email, password, isTeacher, classes } = req.body;
 
-const createUserRes = await createUser(createUserReq)
-console.log("Created User")
-console.log(createUserRes)
+    const emailExists = await User.find({email: email})
+    if (emailExists.length > 0) {
+      return {
+        status: false,
+        message: "Email already exists. Please choose a different email."
+      }
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({
+      name: name,
+      email: email,
+      password: hashedPassword,
+      role: isTeacher,
+      classes:[]
+    })
+    console.log(newUser)
 
-// User Login
-const userLoginReq = {
-  email: "RandomOtter",
-  password: "password"
-}
+    // Send a meaningful response back to the client
+    res.status(201).json({ message: "User has been created",});
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
-const userLoginRes = await authUser(userLoginReq)
-console.log("User Login")
-console.log(userLoginRes)
+// Handle POST request to createUser endpoint
+app.post('/authUser', async (req, res) => {
+  console.log(req.body)
+  const { email, password } = req.body;
+  console.log(req.body)
+  try {
+    const user = await User.findOne({ email: email });
 
-// create class
-const createClassReq = {
-  email: "RandomOtter",
-  classTitle: "Electricity and Magnetism",
-  classDescription: "We're gonna learn physics!",
-  classCode: "PHYS101"
-}
+    if (!user) {
+      console.log('User not found.');
+      res.send("User not found")
+    }
+ 
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-const createClassRes = await createClass(createClassReq)
-console.log("Created Class")
-console.log(createClassRes)
+    if (!isPasswordValid) {
+      console.log('Invalid password.');
+      return res.send('Invalid password');
+    }
 
-// Create post
-const createPostReq = {
-  classTitle: "Electricity and Magnetism",
-  postTitle: "Welcome!",
-  postBody: "First class is Monday 3.30pm"
-}
-
-const createPostRes = await createPost(createPostReq)
-console.log("Created Post")
-console.log(createPostRes)
-
-// List Classes
-const listClassesReq = {
-  email: "RandomOtter"
-}
-const listClassesRes = await listClasses(listClassesReq)
-console.log("List Classes")
-console.log(listClassesRes)
-
-// Get Class Info
-const getClassInfoReq = {
-  classTitle: "Electricity and Magnetism"
-}
-const getClassInfoRes = await getClassInfo(getClassInfoReq)
-console.log("Get Class Info")
-console.log(getClassInfoRes)
-
-// Get Class Students
-const getClassStudentsReq = {
-  classTitle: "Electricity and Magnetism"
-}
-const getClassStudentsRes = await getClassStudents(getClassInfoReq)
-console.log("Get Class Students")
-console.log(getClassStudentsRes)
-
-// Create New Student
-const createNewStudentReq = {
-  firstName: "Jane",
-  lastName: "Doe",
-  email: "RandomMule",
-  password: "password",
-  role: "0"
-}
-const createNewStudentRes = await createUser(createNewStudentReq)
-console.log("Create New Students")
-console.log(createNewStudentRes)
-
-// Add Class Student
-const studentAddClassReq = {
-  classCode: "PHYS101",
-  email: 'RandomMule'
-}
-
-const studentAddClassRes = await studentAddClass(studentAddClassReq)
-console.log("Student Add Class")
-console.log(studentAddClassRes)
+    console.log('Login successful.');
+    // Here you might set up a session or generate a token for the user
+    res.send("Login successful")
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+  
+})
+app.listen(port, () => {
+  console.log(`listening on port ${port}...`) 
+}) 

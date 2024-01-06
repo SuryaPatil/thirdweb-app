@@ -3,8 +3,8 @@ import { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
 
-// const sgMail = require('@sendgrid/mail')
-// sgMail.setApiKey(process.env.NEXT_PUBLIC_SG_API_KEY)
+ const sgMail = require('@sendgrid/mail')
+ sgMail.setApiKey(process.env.NEXT_PUBLIC_SG_API_KEY)
 
 
 function ClassroomPostForm({classInfo}: {classInfo: any}) {
@@ -32,8 +32,8 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
       text: uris[0],
       html: `<h1>Assignment Alert:\n ${title} \n ${description} \n Attachments:\n https://ipfs.io/ipfs/${uris[0].substring(7)}</h1>`
   }
-  // sgMail.send(message).then((response:any) => console.log(response))
-  // .catch((error:any) => console.log(error.message)); 
+   sgMail.send(message).then((response:any) => console.log(response))
+   .catch((error:any) => console.log(error.message)); 
 
   await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}post/sg`, {
     method: 'POST',

@@ -2,11 +2,12 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
-  role: String,
-  classes:[String],
+    name: {type: String, required: true},
+    email: {type: String, required: true},
+    password: {type: String, required: true},
+    createDate: {type: Date, default: new Date()},
+    classes:  [{type: Schema.Types.ObjectId, ref: 'Class'}],
+    isTeacher: {type: Boolean, default: false}
 });
-module.exports = mongoose.models?.User || mongoose.model("User", userSchema);
+const User = model('User', userSchema);
+export default User;

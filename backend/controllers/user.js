@@ -21,9 +21,9 @@ export const createUser = async (req) => {
       message: "Email already exists. Please choose a different email."
     }
   }
+  const name = req.firstName+" "+req.lastName
   const newUser = await User.create({
-    firstName: req.firstName,
-    lastName: req.lastName,
+    name: name,
     email: req.email,
     password: req.password,
     role: req.role,

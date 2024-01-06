@@ -7,33 +7,6 @@ import sendMessage from "../messaging/twilio.js"
 
 const Home: NextPage = () => {
 
-//   async function sendRequest() {
-//     console.log("CLICKED");
-//     const response = await fetch("http://localhost:3001/users/authUser", {
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   body: JSON.stringify({
-//     email: "RandomOtter",
-//     password: "password",
-//   }), // Send your data in JSON format
-// })
-//   .then(res => {
-//     if (!res.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     // console.log(res);
-//     res.json().then(json => {
-//       console.log(json);
-//     });
-//     return res;
-//   })
-//   .catch(error => console.error('Fetch error:', error));
-
-//     // fetch(process.env.HOST_NAME + "users/authUser")
-//   }
-
   const { mutateAsync: upload } = useStorageUpload(); 
   const [user, setUser] = useState<any>(null);
 
@@ -41,17 +14,6 @@ const Home: NextPage = () => {
     // Perform localStorage action
      setUser(localStorage.getItem('user'));
   }, [])
-
-  const onDrop = useCallback(
-    async (acceptedFiles: File[]) => {
-      const uris = await upload({data: acceptedFiles}); 
-      console.log(uris);
-    },
-    [upload],
-  );
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop })
-
 
 
   return (
@@ -64,7 +26,7 @@ const Home: NextPage = () => {
           <Link href="/learn-more" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Learn More</p>
           </Link>
-          <Link href={user != null ? "/teacherDashboard" : "/login"}
+          <Link href={"/register"}
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex-1 max-w-xs text-center">
             <p>Get Started</p>
           </Link>
