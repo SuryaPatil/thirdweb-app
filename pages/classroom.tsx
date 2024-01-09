@@ -11,6 +11,37 @@ import PeoplesList from '../components/PeoplesList';
 
 const Classroom = () => {
 
+  const [user, setUser] = useState({isTeacher: false})
+
+  useEffect(() => {
+    
+    const item = localStorage.getItem('user')!;
+    console.log(item)
+    const parsedUser = JSON.parse(item);
+    console.log(parsedUser)
+    setUser(parsedUser)
+     
+    async function fetchClasses(){
+      try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}listClasses/${parsedUser._id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const data = await response.json();
+      //  console.log(data); // Use the data as needed
+      }
+      catch(e){
+        console.log(e)
+      }
+      
+    }
+    fetchClasses()
+    console.log(user)
+
+  }, [])
+
 
   // Sample assignments data
   const posts = [
@@ -33,13 +64,14 @@ const Classroom = () => {
   ];
 
   const [showTimeline, setShowTimeline] = useState(true);
-
+  const destination = user.isTeacher ? '/teacherDashboard' : '/studentDashboard';
+  console.log(destination)
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
         <div className="max-w-4xl w-[80%]">
 
             {/* back to dashboard */ }
-            <Link href="/login" className="flex flex-row mb-8 items-center w-auto group hover:cursor-pointer">
+            <Link href={destination} className="flex flex-row mb-8 items-center w-auto group hover:cursor-pointer">
                 <img src="/icons/left-arrow.png" alt="Back Icon" 
                     style={{ maxWidth: '20px', maxHeight: '20px' }}/>
                 <p className="mx-4 group-hover:bg-gray-400">Back to Dashboard</p>

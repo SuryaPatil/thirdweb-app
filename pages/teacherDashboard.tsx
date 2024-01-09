@@ -5,43 +5,43 @@ import { useEffect, useState } from "react";
 import UserNotificationDashboard from "../components/UserNotificationDashboard";
 import ClassroomCard from "../components/ClassroomCard";
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import { parse } from "path";
 
 function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value: boolean) => void}) {
+  const [className, setClassname] = useState('');
   const [classroomCode, setClassroomCode] = useState('');
+  const [teacher, setTeacher] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setClassroomCode(e.target.value);
-  };
 
   const handleSubmit = async () => {
     // Handle form submission here, e.g., send the classroomCode to your API
-    console.log('Submitted Classroom Code:', classroomCode);
+    console.log(classroomCode);
+    console.log(className)
+    let parsedUser;
+    if(typeof window !== 'undefined'){
+      const savedUser = localStorage.getItem('user');
+      parsedUser = savedUser ? JSON.parse(savedUser) : null;
+    }
 
     // TODO: handle adding classroom 
-    await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/studentAddClass`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}createClass`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         classCode: classroomCode,
-        email: localStorage.getItem('user'),
+        className: className,
+        userId: parsedUser._id,
       }), 
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        res.json().then(json => {
-          if (json.status == false) {
-            alert(json.message)
-          }
-        });
-      })
-      .catch(error => console.error('Fetch error:', error));
+    const data = await response.json()
+    console.log(data);
+
     // Close the modal
     setClassroomCode('');
+    setClassname('');
     setIsOpen(false);
   };
 
@@ -61,7 +61,19 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
           
               <h3>Create a Class</h3>
             </div>
-            <div className="flex flex-col">
+            <form className="flex flex-col">
+              <label htmlFor="classroomCode">Classname:</label>
+              <input
+                type="text"
+                id="classroomCode"
+                name="classroomCode"
+                className="rounded-lg p-2"
+                value={className}
+                onChange={(e) => {setClassname(e.target.value)}}
+                autoComplete="off"
+                autoCapitalize="off"
+                autoFocus={true}
+              />
               <label htmlFor="classroomCode">Classroom Code:</label>
               <input
                 type="text"
@@ -69,12 +81,14 @@ function AddClassModal ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (value
                 name="classroomCode"
                 className="rounded-lg p-2"
                 value={classroomCode}
-                onChange={handleInputChange}
+                onChange={(e) => {setClassroomCode(e.target.value)}}
                 autoComplete="off"
                 autoCapitalize="off"
                 autoFocus={true}
               />
-            </div>
+              
+            </form>
+
             <div className="modal-footer">
               <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onClick={handleSubmit}>
                 Submit
@@ -91,6 +105,15 @@ export default function Dashboard() {
   const [showSettings, setShowSettings] = useState(false);
   const [username, setUsername] = useState('');
 
+// In the receiving page (another-page.js)
+// Retrieve user data on the new page
+if(typeof window !== 'undefined'){
+  const savedUser = localStorage.getItem('user');
+const parsedUser = savedUser ? JSON.parse(savedUser) : null;
+}
+else{
+  console.log("local storage is undefined")
+}
   const toggleOptions = () => {
     setShowSettings(!showSettings);
   };
@@ -103,31 +126,32 @@ export default function Dashboard() {
   const [classSet, setClassSet] = useState<any[]>([])
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
     
-    fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}users/listClasses`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: user
-      }), 
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // console.log(res);
-        res.json().then(json => {
-          console.log(json.docs);
-          setClassSet(json.docs)
-        });
-        return res;
-      })
-      .catch(error => console.error('Fetch error:', error));
+    const user = localStorage.getItem('user')!;
+    const parsedUser = user ? JSON.parse(user) : null;
+    setUsername(parsedUser.name)
+    async function fetchClasses(){
+      try{
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}listClasses/${parsedUser._id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        const data = await response.json();
+        console.log(data); // Use the data as needed
+        setClassSet(data)
+      }
+      catch(e){
+        console.log(e)
+      }
+      
+    }
+    fetchClasses()
+    
 
   }, [])
+  console.log(classSet)
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
@@ -150,7 +174,7 @@ export default function Dashboard() {
               <div className="bg-red-400 p-2 group hover:bg-red-800 hover:cursor-pointer" 
                 style={{
                   position: 'absolute',
-                  top: 70, 
+                  top: 70,  
                   zIndex: 1, 
                 }}>
             <ul>
@@ -169,7 +193,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-semibold mb-4">My Classes</h1>
           <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded flex flex-row items-center"
             onClick={() => setIsModalOpen(true)}>
-            <p>Add a Class</p>
+            <p>Create a Class</p>
             <img src="/icons/plus.png" alt="Add" 
               style={{ maxWidth: '20px', maxHeight: '20px'}}
               className="ml-2"/>
@@ -179,18 +203,18 @@ export default function Dashboard() {
         
         <div className="flex flex-wrap justify-center">
           {
-        classSet.map( (classroom: any) => {
-              const classData = JSON.parse(classroom);
-              return (<ClassroomCard
-                title={classData.title}
-                classCode={classData.classCode}
-                professor={classData.professor}
+            
+             classSet.map( (classroom: any, index) => {
+              console.log(classroom)
+              
+                return (<ClassroomCard
+                  classroom={classroom}
+                  teacherName={classroom.teacherName}
+                  key={classroom._id}
+                />)
 
-                key={classroom.name}
-              />)
-
-            }
-            )
+               }
+             )
           }
       </div>
       </div>

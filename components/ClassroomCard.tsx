@@ -5,27 +5,34 @@ import { useState } from "react";
 import { displayName } from "../utils/functions";
 import { Classroom } from "../utils/types";
 
-export default function ClassroomCard ({title, classCode, professor}: {title: string, classCode: string, professor: string}) {
+export default function ClassroomCard ({classroom, teacherName}: {classroom: any, teacherName:string}) {
     const router = useRouter();
     const [showOptions, setShowOptions] = useState(false);
+
 
     const toggleOptions = () => {
       setShowOptions(!showOptions);
     };
 
+    const handleClick = () => {
+      localStorage.setItem('classroom', JSON.stringify(classroom));
+      router.push(`/classroom`)
+    }
+    
+
     return (
       <div
         className="bg-accent shadow-lg rounded-lg m-4 w-72 hover:scale-105 hover:shadow-xl duration-150 hover:cursor-pointer"
         onMouseDown={() => router.push(`/classroom`)} // /${classCode}
-        onMouseLeave={() => setShowOptions(false)}>
+        onMouseLeave={() => handleClick()}>
         {/* {imageSrc && (
           <img src={imageSrc} alt={name} className="w-full h-40 object-cover" />
         )} */}
         <div className="flex flex-row justify-between p-4 rounded-lg">
 
           <div>
-            <h4>{title}</h4>
-            <p className="text-gray-600 mt-2">{professor}</p>
+            <h4>{classroom.name}</h4>
+            <p className="text-gray-600 mt-2">{teacherName}</p>
           </div>
           <img
                 src="/icons/dots.png"

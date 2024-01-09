@@ -9,8 +9,10 @@ const Login = () => {
 
     const router = useRouter();
 
+    const [user, setUser] = useState(null)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -19,9 +21,22 @@ const Login = () => {
         
         try{
             const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}authUser`, {email, password})
-            console.log(res.data)
+
             if(res.data === "User not found" || res.data === 'Invalid password'){
                 alert("Invalid email or password")
+            }
+            else{
+              setUser(res.data)
+              // Save user data to local storage
+              localStorage.setItem('user', JSON.stringify(res.data));
+              if(res.data.isTeacher){
+                router.push('/teacherDashboard')
+        //        router.push('/teacherDashboard?user=' + encodeURIComponent(JSON.stringify(res.data)));
+              }
+              else{
+                router.push('/studentDashboard')
+          //      router.push('/studentDashboard?user=' + encodeURIComponent(JSON.stringify(res.data)));
+              }
             }
 
 
