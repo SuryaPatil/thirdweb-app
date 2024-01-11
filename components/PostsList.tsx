@@ -17,8 +17,9 @@ const PostPreview = ({post}: {post: any}) => {
                 style={{backgroundColor: colorScheme.primary}}>{post.title}</h2>
                 <div className="px-8 py-4" 
                 style={{backgroundColor: colorScheme.secondary}}>
-                    <p className="text-gray-600 truncate overflow-hidden">{post.description}</p>
+                    <p className="text-gray-600 truncate overflow-hidden">{post.body}</p>
                     <p className="text-gray-600">Due Date: {post.dueDate}</p>
+                    <p className="text-gray-600">File URL: {post.fileURL}</p>
                     {
                         post.attachment != null &&
                         (() => {

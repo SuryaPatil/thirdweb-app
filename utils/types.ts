@@ -63,7 +63,7 @@ export interface Person {
     title: "Algebra 101",
     description: "Major topics of study include: evaluation of algebraic equations, exponent rules and manipulation, polynomials, solving and graphing linear equations, solving and graphing two variable inequalities, solving systems of equations, radicals, word problems, solving and graphing quadratic equations, and factoring.",
     classroomCode: "MATHALG101",
-    professor: "Mr. Joe",
+    professor: "Mr. Frank",
     posts: [],
   };
 

@@ -9,7 +9,7 @@ interface ClassroomInfoProps {
     classroomInfo: Classroom
 }
 
-const ClassroomInfo = ({ styles, classroomInfo }: ClassroomInfoProps) => {
+const ClassroomInfo = ({ styles, classroomInfo }: {styles:any, classroomInfo: any}) => {
 
   const [isClassroomCodeVisible, setIsClassroomCodeVisible] = useState(false);
 
@@ -17,13 +17,13 @@ const ClassroomInfo = ({ styles, classroomInfo }: ClassroomInfoProps) => {
     console.log("clicked");
     setIsClassroomCodeVisible(!isClassroomCodeVisible);
   };
-
+  console.log(classroomInfo)
   return (
     <div className={`bg-white shadow-md rounded-lg p-4 ${styles}`}>
         <div className="flex justify-between items-center">
             <div className="flex flex-col gap-2">
-                <h1>{classroomInfo.title}</h1>
-                <h3 className="text-gray-600">{classroomInfo.professor}</h3>
+                <h1>{classroomInfo.name}</h1>
+                <h3 className="text-gray-600">{classroomInfo.teacherName}</h3>
                 <p>{classroomInfo.description}</p>
             </div>
 
@@ -34,7 +34,7 @@ const ClassroomInfo = ({ styles, classroomInfo }: ClassroomInfoProps) => {
         </div>
         {isClassroomCodeVisible && (
             <div className="mt-4">
-            <p><b>Classroom Code:</b> {classroomInfo.classroomCode}</p>
+            <p><b>Classroom Code:</b> {classroomInfo.classCode}</p>
             </div>
         )}
     </div>

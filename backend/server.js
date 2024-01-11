@@ -2,13 +2,13 @@
 import mongoose from 'mongoose'
 import User from './models/user.js'
 import Class from './models/class.js'
-import Posts from './models/posts.js'
 import bcrypt from 'bcrypt'
 
 import express from 'express' 
 const app = express()
 const port = 8000;
 import cors from 'cors' 
+import Post from './models/posts.js'
 app.use(cors({
   origin: "http://localhost:3000",
   methods: ['PUT', 'GET', 'DELETE', 'POST', 'PATCH'],
@@ -124,6 +124,44 @@ app.post('/createClass', async (req, res) => {
   }
 })
 
+app.post('/createPost', async (req, res) => {
+  console.log(req.body)
+  const {classId, title, description, teacherName } = req.body
+  try{
+    const clas = await Class.findById(classId)
+    if(!clas){
+      return res.send({
+        status: 101,
+        message: "Class not found"
+      })
+    }
+    const teacher = await User.findById(clas.teacher)
+    if(!teacher){
+      return res.send({
+        status: 102,
+        message: "Teacher not found"
+      })
+    }
+    console.log(teacher.name)
+    const post = await Post.create({title: title, 
+                            body: description, 
+                            postBy: teacher.name,
+                            email: teacher.email
+                          })
+    clas.posts.push(post)
+    await clas.save()
+    res.send({
+      status: 200,
+      message: "Post created successfully"
+    })
+  } catch(e){
+    res.send({
+      status: 400,
+      message: e
+    })
+  }
+})
+
 app.get('/listClasses/:userId', async (req, res) => {
   //console.log(req.params)
   const userId = req.params.userId
@@ -171,6 +209,24 @@ app.get('/getUser:userId', async (req, res) => {
   }
 })
 
+app.get('/getClass/:classId', async (req, res) => {
+  const classId = req.params.classId
+  try{
+    const clas = await Class.findById(classId)
+    if(!clas){
+      return {
+        status: false,
+        message: "Class not found."
+      }
+    }
+    res.send(clas)
+  }
+  catch(e){
+    console.log(e)
+    res.send(e)
+  }
+})
+
 app.get('/getTeacherByClass:classId', async (req, res) => {
   const teacherId = req.params.teacherId
   try{
@@ -184,6 +240,39 @@ app.get('/getTeacherByClass:classId', async (req, res) => {
     res.send(teacher.name)
   } catch(e){
     console.log(e)
+  }
+})
+
+app.get('/getPosts/:classId', async (req, res) => {
+  const classId = req.params.classId
+
+  try{
+    const clas = await Class.findById(classId)
+    if(!clas){
+      console.log("Class not found")
+      return res.send({
+        status: 101,
+        message: "Class not found"
+      })
+    }
+    const postIds = clas.posts
+    const posts = []
+    for(const id of postIds){
+      const post = await Post.findById(id)
+      if(post){
+        posts.push(post)
+      }
+    }
+    console.log(posts)
+    res.send(posts)
+
+
+  } catch(e){
+    console.log(e)
+    return res.send({
+      status: 400,
+      message: e
+    })
   }
 })
 
@@ -207,7 +296,7 @@ app.put('/enroll', async (req, res) => {
         message: "Class not found"
       })
 
-    }
+    } 
     for(const student of clas.students){
       if(student.toString() === user._id.toString()){
         console.log("Cannot enroll in a class you are already enrolled in")
@@ -235,6 +324,7 @@ app.put('/enroll', async (req, res) => {
   }
 
 })
+
 
 app.listen(port, () => {
   console.log(`listening on port ${port}...`) 

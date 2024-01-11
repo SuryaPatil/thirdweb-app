@@ -12,7 +12,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<any>(null);
   const [openPost, setOpenPost] = useState(false);
-  const [fileURI, setFileURI] = useState("");
+  const [fileURI, setFileURI] = useState("No files uploaded");
 
   const { mutateAsync: upload } = useStorageUpload(); 
 
@@ -24,59 +24,6 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
       console.log(typeof(uris[0]));
       setFileURI(uris[0]);
 
-      
-    const message = {
-      to: 'surya.patil@stonybrook.edu',
-      from: 'patil.surya01@gmail.com',
-      subject: 'Assignment IPFS URL',
-      text: uris[0],
-      html: `<h1>Assignment Alert:\n ${title} \n ${description} \n Attachments:\n https://ipfs.io/ipfs/${uris[0].substring(7)}</h1>`
-  }
-   sgMail.send(message).then((response:any) => console.log(response))
-   .catch((error:any) => console.log(error.message)); 
-
-  await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}post/sg`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message), 
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      // console.log(res);
-      res.json().then(json => {
-        console.log(json);
-      });
-      return res;
-    })
-    .catch(error => console.error('Fetch error:', error));
-
-    await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}post/createPost`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        classTitle: classInfo.title,
-        postTitle: title,
-        postBody: description,
-      }), 
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // console.log(res);
-        res.json().then(json => {
-          console.log(json);
-        });
-        return res;
-      })
-      .catch(error => console.error('Fetch error:', error));
-   
 
     },
     [upload],
@@ -105,13 +52,39 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-
-    // Send the form data (title, description, and file) to your backend for processing
-    // You can use Axios or the Fetch API to make an API request to your backend endpoint
-    // Remember to handle success and error cases
+    await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}createPost`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        classId: classInfo._id,
+        title: title,
+        description: description,
+        postBy: classInfo.teacherName 
+      }), 
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // console.log(res);
+        res.json().then(json => {
+          console.log(json);
+        });
+        setOpenPost(false);
+        setDescription("")
+        setTitle("")
+        setFileURI("")
+      })
+      .catch(error => console.error('Fetch error:', error));
   };
-
+  const close = () => {
+    setOpenPost(false);
+    setDescription("")
+    setTitle("")
+    setFileURI("")
+  }
   return (
     <div className="my-8 bg-white rounded-lg px-4 py-4">
       <div className='flex flex-row justify-between align-center'> 
@@ -119,7 +92,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
         {openPost ? 
         <button type="button"
           className="bg-slate-400 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setOpenPost(false)}>Close</button> : 
+          onClick={() => close()}>Close</button> : 
         <button type='button'
           className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           onClick={() => setOpenPost(true)}>Post</button>}
@@ -153,10 +126,12 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
 
           <div  {...getRootProps()}> 
       <input {...getInputProps()} />
-        <button type="submit" className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
+        <button className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
           Drop files here to upload them to IPFS 
         </button>
+        
     </div>
+    <button type="submit" onClick={(e) => {handleSubmit(e)}}>Post to classroom</button>
         </form>
       } 
     </div>
