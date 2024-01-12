@@ -33,7 +33,7 @@ const Classroom = () => {
           },
         })
         const data = await response.json();
-        console.log(data); // Use the data as needed
+      //  console.log(data); // Use the data as needed
         setClassroom(data)
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}getPosts/${parsedClassData._id}`, {
@@ -43,7 +43,7 @@ const Classroom = () => {
           },
         })
         const info = await res.json()
-        console.log(info)
+       // console.log(info)
         setPosts(info)
       }
       catch(e){
@@ -53,28 +53,6 @@ const Classroom = () => {
     fetchClass() 
 
   }, [])
-
-
-  // Sample assignments data
-  // const posts = [
-  //   {
-  //     title: 'Math Homework 1',
-  //     description: 'Complete exercises 1-5 on page 25. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE',
-  //     dueDate: 'September 15, 2023',
-  //     attachment: null,
-  //   },
-  //   {
-  //     title: 'Math Homework 2',
-  //     description: 'Complete exercises 6-10 on page 25.',
-  //     dueDate: 'September 18, 2023',
-  //     attachment: {
-  //       type: "ASSIGNMENT",
-  //       fileName: "THE_PRESENTATION_NOTES.pptx",
-  //     }
-  //   },
-  //   // Add more assignments as needed
-  // ];
-
   const [showTimeline, setShowTimeline] = useState(true);
   const destination = user.isTeacher ? '/teacherDashboard' : '/studentDashboard';
 

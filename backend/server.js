@@ -126,7 +126,7 @@ app.post('/createClass', async (req, res) => {
 
 app.post('/createPost', async (req, res) => {
   console.log(req.body)
-  const {classId, title, description, teacherName } = req.body
+  const {classId, title, description, dueDate, fileURI } = req.body
   try{
     const clas = await Class.findById(classId)
     if(!clas){
@@ -146,7 +146,9 @@ app.post('/createPost', async (req, res) => {
     const post = await Post.create({title: title, 
                             body: description, 
                             postBy: teacher.name,
-                            email: teacher.email
+                            email: teacher.email,
+                            dueDate: dueDate,
+                            fileURL: fileURI
                           })
     clas.posts.push(post)
     await clas.save()
@@ -263,7 +265,7 @@ app.get('/getPosts/:classId', async (req, res) => {
         posts.push(post)
       }
     }
-    console.log(posts)
+ //   console.log(posts)
     res.send(posts)
 
 

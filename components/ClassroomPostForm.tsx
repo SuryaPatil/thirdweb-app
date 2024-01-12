@@ -10,6 +10,7 @@ import { ConnectWallet, useStorageUpload } from "@thirdweb-dev/react";
 function ClassroomPostForm({classInfo}: {classInfo: any}) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [dueDate, setDueDate] = useState('')
   const [file, setFile] = useState<any>(null);
   const [openPost, setOpenPost] = useState(false);
   const [fileURI, setFileURI] = useState("No files uploaded");
@@ -23,7 +24,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
       console.log(uris[0]);
       console.log(typeof(uris[0]));
       setFileURI(uris[0]);
-
+      setOpenPost(true)
 
     },
     [upload],
@@ -40,17 +41,12 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
   const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // Use optional chaining to access e.target.files safely
-    const selectedFile = e.target.files?.[0];
-  
-    if (selectedFile) {
-      setFile(selectedFile);
-    }
+  const handleDueDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setDueDate(e.target.value);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await fetch(`${process.env.NEXT_PUBLIC_HOST_NAME}createPost`, {
       method: 'POST',
@@ -61,7 +57,9 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
         classId: classInfo._id,
         title: title,
         description: description,
-        postBy: classInfo.teacherName 
+        postBy: classInfo.teacherName,
+        dueDate: dueDate,
+        fileURI: fileURI 
       }), 
     })
       .then(res => {
@@ -76,6 +74,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
         setDescription("")
         setTitle("")
         setFileURI("")
+        setDueDate("")
       })
       .catch(error => console.error('Fetch error:', error));
   };
@@ -84,6 +83,7 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
     setDescription("")
     setTitle("")
     setFileURI("")
+    setDueDate("")
   }
   return (
     <div className="my-8 bg-white rounded-lg px-4 py-4">
@@ -123,15 +123,25 @@ function ClassroomPostForm({classInfo}: {classInfo: any}) {
               required
             ></textarea>
           </div>
+          <div>
+            <label htmlFor="dueDate" >Due Date</label>
+            <input
+              id="dueDate"
+              name="dueDate"
+              value={dueDate}
+              onChange={handleDueDateChange}
+              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
 
           <div  {...getRootProps()}> 
-      <input {...getInputProps()} />
-        <button className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
-          Drop files here to upload them to IPFS 
-        </button>
-        
-    </div>
-    <button type="submit" onClick={(e) => {handleSubmit(e)}}>Post to classroom</button>
+            <input {...getInputProps()} />
+            <button type="button" className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500 bg-blue-100">
+              Drop files here to upload them to IPFS 
+            </button>          
+          </div>
+          <button type="submit" >Post to classroom</button>
         </form>
       } 
     </div>

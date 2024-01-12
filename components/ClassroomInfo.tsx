@@ -17,7 +17,7 @@ const ClassroomInfo = ({ styles, classroomInfo }: {styles:any, classroomInfo: an
     console.log("clicked");
     setIsClassroomCodeVisible(!isClassroomCodeVisible);
   };
-  console.log(classroomInfo)
+ // console.log(classroomInfo)
   return (
     <div className={`bg-white shadow-md rounded-lg p-4 ${styles}`}>
         <div className="flex justify-between items-center">
