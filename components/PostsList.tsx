@@ -6,20 +6,27 @@ import { useRouter } from 'next/navigation'
 
 const PostPreview = ({post}: {post: any}) => {
     const router = useRouter();
-    
+    console.log(post)
     const colorScheme = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)]
+
+    const clickPost = async () => {
+        localStorage.setItem('post', JSON.stringify(post));
+        router.push("/post")
+    }
 
     return (
     
             <div className="mb-4 rounded-lg bg-white overflow-hidden hover:bg-gray-200 hover:cursor-pointer" style={{ userSelect: 'none' }}
-                onMouseDown={() => router.push("/post")}>
+                onMouseDown={() => {clickPost()}}>
                 <h2 className="px-8 py-4"
                 style={{backgroundColor: colorScheme.primary}}>{post.title}</h2>
                 <div className="px-8 py-4" 
                 style={{backgroundColor: colorScheme.secondary}}>
                     <p className="text-gray-600 truncate overflow-hidden">{post.body}</p>
                     <p className="text-gray-600">Due Date: {post.dueDate}</p>
-                    <p className="text-gray-600">File URL: {post.fileURL}</p>
+                    <p className="text-gray-600">
+                        File URL: {post?.fileURL ? <a href={post.fileURL} target="_blank" rel="noopener noreferrer">{post.fileURL}</a> : 'N/A'}
+                    </p>
                     {
                         post.attachment != null &&
                         (() => {

@@ -2,15 +2,21 @@ import Link from "next/link";
 import Attachment from "../components/Attachment";
 
 const Post = () => {
-    const post = {
-        title: 'Math Homework 1',
-        description: 'Complete exercises 1-5 on page 25. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE',
-        dueDate: 'September 15, 2023',
-        attachment: {
-            type: "ASSIGNMENT",
-            fileName: "THE_PRESENTATION_NOTES.pptx",
-        }
-      }
+    try{
+            const item = localStorage.getItem('post')!;
+    console.log(item)
+    const post = JSON.parse(item);
+    // const post = {
+    //     title: 'Math Homework 1',
+    //     description: 'Complete exercises 1-5 on page 25. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE. THERE IS A LOT OF WORK TO BE DONE',
+    //     dueDate: 'September 15, 2023',
+    //     attachment: {
+    //         type: "ASSIGNMENT",
+    //         fileName: "THE_PRESENTATION_NOTES.pptx",
+    //     }
+    //   }  
+    
+
   
     return (
       <div className="bg-gray-100 min-h-screen p-4 flex flex-col items-center">
@@ -24,9 +30,12 @@ const Post = () => {
               </Link>
 
               <div className="mb-4 rounded-lg bg-white py-4 px-8" style={{ userSelect: 'none' }}>
-                        <h3 className="text-xl font-medium">{post.title}</h3>
-                        <p className="text-gray-600">{post.description}</p>
+                        <h3 className="text-xl font-medium">{post.name}</h3>
+                        <p className="text-gray-600">{post.body}</p>
                         <p className="text-gray-600">Due Date: {post.dueDate}</p>
+                        <p className="text-gray-600">
+  File URL: {post?.fileURL ? <a href={post.fileURL} target="_blank" rel="noopener noreferrer">{post.fileURL}</a> : 'N/A'}
+</p>
                         {
                             post.attachment != null &&
                             (() => {
@@ -58,6 +67,10 @@ const Post = () => {
         
       </div>
     );
+
+                    }catch(e){
+        console.log(e)
+    }
   };
 
 export default Post;
