@@ -1,3 +1,8 @@
+## Edblock
+Edblock is a peer-to-peer file-sharing service for students and teachers. Read more about the project [here](https://github.com/KobeZ123/spotify-playlist-maker)
+## How the App Works
+
+
 ## Getting Started
 
 Create a project using this example:
