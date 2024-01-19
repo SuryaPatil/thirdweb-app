@@ -1,3 +1,14 @@
+## Edblock
+Edblock is a peer-to-peer file-sharing service for students and teachers. Read more about the project [here](https://github.com/KobeZ123/spotify-playlist-maker)
+## How the App Works
+First, the user needs to create an account. The user is either a student or teacher. 
+
+<img width="619" alt="Screen Shot 2024-01-19 at 9 09 22 PM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/fd9d1987-bb7a-413f-9dc2-2fd7e3c359f4">
+
+Once the user has an account, they can login:
+<img width="643" alt="Screen Shot 2024-01-19 at 9 12 23 PM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/07cbd1dc-1682-4fbc-8661-47211491036b">
+ 
+
 ## Getting Started
 
 Create a project using this example:
