@@ -42,6 +42,33 @@ https://github.com/SuryaPatil/thirdweb-app/assets/78182536/ca98d353-409b-47e4-90
 
 
 
+## Running the application
+In the root directory of the project, install the necessary packages via the command:
+```bash
+npm install
+```
+
+To run the frontend, run
+```bash
+npm run dev
+```
+
+To run the set up the database, open another tab in your terminal. Then, enter the backend directory via:
+```bash
+cd backend
+```
+
+To run the server, install the necessary packages via: 
+```bash
+npm install
+```
+
+Now, run:
+```bash
+nodemon server.js
+```
+The application is now running on localhost:3000, and the server is running on localhost:8000
+
 ## Getting Started
 
 Create a project using this example:
