@@ -9,20 +9,31 @@ Once the user has an account, they can login:
 
 <img width="643" alt="Screen Shot 2024-01-19 at 9 12 23 PM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/07cbd1dc-1682-4fbc-8661-47211491036b">
 
+
 Once the user is logged in, they can see all their classes:
 
 <img width="984" alt="Screen Shot 2024-01-22 at 9 05 32 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/2c27c928-3c35-4ea4-8667-293e84e9be1b">
+
 
 Click on a class to view its webpage: 
 
 <img width="1129" alt="Screen Shot 2024-01-22 at 8 57 09 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/ce1ae41f-4403-48e1-bd6e-52e270b50aff">
 
+
 Click "Post" to make a post. Optionally share a file by uploading it to IPFS. 
 
 <img width="1003" alt="Screen Shot 2024-01-22 at 9 21 41 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/e3582e12-78df-4fe9-a760-eb26cfc45903">
 
-We can see the post with the file's IPFS URL. 
+
+We can see the post with the file's IPFS URL. Click on the URL to access the file using IPFS. 
+
 <img width="1059" alt="Screen Shot 2024-01-22 at 9 45 06 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/b0265f20-1787-4244-9276-f2c160761359">
+
+
+We can see the file using the IPFS URL.
+
+<img width="1440" alt="Screen Shot 2024-01-22 at 9 59 08 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/c1576ed8-d0da-453d-9d76-5f11b6b5f5f5">
+
 
 ## Getting Started
 
