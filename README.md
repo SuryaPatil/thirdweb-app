@@ -53,14 +53,11 @@ To run the frontend, run
 npm run dev
 ```
 
-To run the set up the database, open another tab in your terminal. Then, enter the backend directory via:
+To run the set up the database, open another tab in your terminal. Then, enter the following commands:
 ```bash
 cd backend
-```
-
-To run the server, install the necessary packages via: 
-```bash
 npm install
+init.js
 ```
 
 Now, run:
