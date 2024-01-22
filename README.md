@@ -57,7 +57,7 @@ To run the set up the database, open another tab in your terminal. Then, enter t
 ```bash
 cd backend
 npm install
-init.js
+node init.js
 ```
 
 Now, run:
