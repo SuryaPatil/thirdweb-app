@@ -35,6 +35,13 @@ We can see the file using the IPFS URL.
 <img width="1440" alt="Screen Shot 2024-01-22 at 9 59 08 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/c1576ed8-d0da-453d-9d76-5f11b6b5f5f5">
 
 
+Below is a full video demonstrating the process:
+
+
+https://github.com/SuryaPatil/thirdweb-app/assets/78182536/ca98d353-409b-47e4-908e-13713a92dd97
+
+
+
 ## Getting Started
 
 Create a project using this example:
