@@ -21,6 +21,8 @@ Click "Post" to make a post. Optionally share a file by uploading it to IPFS.
 
 <img width="1003" alt="Screen Shot 2024-01-22 at 9 21 41 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/e3582e12-78df-4fe9-a760-eb26cfc45903">
 
+We can see the post with the file's IPFS URL. 
+<img width="1059" alt="Screen Shot 2024-01-22 at 9 45 06 AM" src="https://github.com/SuryaPatil/thirdweb-app/assets/78182536/b0265f20-1787-4244-9276-f2c160761359">
 
 ## Getting Started
 
